@@ -96,6 +96,9 @@ namespace SpainCP.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
 
+                    b.Property<int>("ClubId")
+                        .HasColumnType("int");
+
                     b.Property<int>("MatchID")
                         .HasColumnType("int");
 
@@ -106,6 +109,8 @@ namespace SpainCP.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("ClubId");
 
                     b.HasIndex("MatchID");
 
@@ -190,6 +195,12 @@ namespace SpainCP.DAL.Migrations
 
             modelBuilder.Entity("SpainCP.DAL.Goal", b =>
                 {
+                    b.HasOne("SpainCP.DAL.Club", "Club")
+                        .WithMany()
+                        .HasForeignKey("ClubId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("SpainCP.DAL.Match", "Match")
                         .WithMany("Goals")
                         .HasForeignKey("MatchID")
@@ -199,8 +210,10 @@ namespace SpainCP.DAL.Migrations
                     b.HasOne("SpainCP.DAL.Player", "Player")
                         .WithMany("Goals")
                         .HasForeignKey("PlayerID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Club");
 
                     b.Navigation("Match");
 

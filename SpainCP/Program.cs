@@ -175,12 +175,16 @@ namespace SpainCP
         {
             while (true)
             {
+                using var db = new AppDbContext();
+                var goalRepo = new GoalRepository(db);
                 Console.Clear();
                 Console.WriteLine("Матчи:");
                 Console.WriteLine("1. Показать все матчи");
                 Console.WriteLine("2. Добавить матч");
                 Console.WriteLine("3. Обновить матч");
                 Console.WriteLine("4. Удалить матч");
+                Console.WriteLine("5. Показать голы матча");
+                Console.WriteLine("6. Добавить гол");
                 Console.WriteLine("0. Назад");
                 Console.Write("\nВыберите действие: ");
 
@@ -229,6 +233,27 @@ namespace SpainCP
                         DateTime d = DateTime.Parse(Console.ReadLine());
 
                         repo.DeleteMatch(c1, c2, d);
+                        break;
+
+                    case "5":
+                        Console.Write("ID матча для показа голов: ");
+                        int matchId = int.Parse(Console.ReadLine());
+                        goalRepo.ShowGoalsForMatch(matchId);
+                        Console.ReadKey();
+                        break;
+
+                    case "6":
+                        Console.Write("ID матча: ");
+                        int mId = int.Parse(Console.ReadLine());
+                        Console.Write("ID игрока: ");
+                        int pId = int.Parse(Console.ReadLine());
+                        Console.Write("ID клуба: ");
+                        int cId = int.Parse(Console.ReadLine());
+                        Console.Write("Минута гола: ");
+                        int min = int.Parse(Console.ReadLine());
+
+                        goalRepo.AddGoal(mId, pId, cId, min);
+                        Console.ReadKey();
                         break;
 
                     case "0":

@@ -15,17 +15,33 @@ namespace SpainCP.DAL
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // ⚽ Player ↔ Club
             modelBuilder.Entity<Club>()
                 .HasMany(c => c.Players)
                 .WithMany(p => p.Clubs)
                 .UsingEntity(j => j.ToTable("ClubPlayer"));
 
-            // 🏟 Club ↔ Match
             modelBuilder.Entity<Club>()
                 .HasMany(c => c.Matches)
                 .WithMany(m => m.Clubs)
                 .UsingEntity(j => j.ToTable("ClubMatch"));
+
+            modelBuilder.Entity<Goal>()
+                .HasOne(g => g.Player)
+                .WithMany(p => p.Goals)
+                .HasForeignKey(g => g.PlayerID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Goal>()
+                .HasOne(g => g.Match)
+                .WithMany(m => m.Goals)
+                .HasForeignKey(g => g.MatchID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Goal>()
+                .HasOne(g => g.Club)
+                .WithMany()
+                .HasForeignKey(g => g.ClubId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -11,5 +11,8 @@
         public Match Match { get; set; }
 
         public int Minute { get; set; }
+
+        public int ClubId { get; set; }
+        public Club Club { get; set; }
     }
 }
