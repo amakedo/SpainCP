@@ -185,6 +185,16 @@ namespace SpainCP
                 Console.WriteLine("4. Удалить матч");
                 Console.WriteLine("5. Показать голы матча");
                 Console.WriteLine("6. Добавить гол");
+                Console.WriteLine("7. Сгенерировать случайные матчи");
+                Console.WriteLine("8. Топ-3 бомбардира конкретной команды.");
+                Console.WriteLine("9. Лучший бомбардир конкретной команды.");
+                Console.WriteLine("10. Топ-3 бомбардира на турнире.");
+                Console.WriteLine("11. Лучший бомбардир турнира.");
+                Console.WriteLine("12. Топ-3 Команды с наибольшим кол-вом голов.");
+                Console.WriteLine("13. Команда с наибольшим кол-вом голов.");
+                Console.WriteLine("14. Топ-3 Команда которая пропустил меньше всего голов.");
+                Console.WriteLine("15. Команда которая пропустил меньше всего голов.");
+                Console.WriteLine("16. Показать команды по очкам.");
                 Console.WriteLine("0. Назад");
                 Console.Write("\nВыберите действие: ");
 
@@ -253,6 +263,53 @@ namespace SpainCP
                         int min = int.Parse(Console.ReadLine());
 
                         goalRepo.AddGoal(mId, pId, cId, min);
+                        Console.ReadKey();
+                        break;
+                    case "7":
+                        Console.Write("Сколько матчей сгенерировать? ");
+                        int numMatches = int.Parse(Console.ReadLine());
+                        repo.GenerateRandomMatches(numMatches);
+                        Console.ReadKey();
+                        break;
+                    case "8":
+                        Console.Write("ID клуба: ");
+                        int clubId = int.Parse(Console.ReadLine());
+                        goalRepo.ShowTop3ScorersOfClub(clubId);
+                        Console.ReadKey();
+                        break;
+                    case "9":
+                        Console.Write("ID клуба: ");
+                        int clubIdBest = int.Parse(Console.ReadLine());
+                        goalRepo.ShowBestScorerOfClub(clubIdBest);
+                        Console.ReadKey();
+                        break;
+                    case"10":
+                        goalRepo.ShowTop3ScorersOverall();
+                        Console.ReadKey();
+                        break;
+                    case"11":
+                        goalRepo.ShowBestScorerOverall();
+                        Console.ReadKey();
+                        break;
+                    case"12":
+                        goalRepo.ShowTop3ScoringClubs();
+                        Console.ReadKey();
+                        break;
+                    case "13":
+                        goalRepo.ShowBestScoringClub();
+                        Console.ReadKey();
+                        break;
+                    case "14":
+                        goalRepo.ShowTop3DefensiveClubs();
+                        Console.ReadKey();
+                        break;
+                    case "15":
+                        goalRepo.ShowBestDefensiveClub();
+                        Console.ReadKey();
+                        break;
+                    case "16":
+                        var matchRepo = new MatchRepository(db);
+                        matchRepo.ShowStandingsAndSummaries();
                         Console.ReadKey();
                         break;
 
